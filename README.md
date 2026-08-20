@@ -1,431 +1,823 @@
 # Nota
 
-**A private, local-first workspace for notes, ideas and personal knowledge.**
+**A private, local-first workspace for notes, ideas, tasks, and personal knowledge.**
 
-Nota is a notes app that never talks to a server. Everything you write is stored
-in your browser, on your device. There is no account, no sync, no analytics and
-no network request after the page loads — the app works offline because it was
-never online in the first place.
+Nota is a responsive note-taking workspace built around one simple idea:
 
-Built with HTML, CSS and vanilla JavaScript ES modules. No framework, no UI
-library, no CSS framework, no build step.
+**your notes should stay yours.**
+
+Everything you write is stored locally in your browser. There is no account, no cloud sync, no analytics, and no backend.
+
+Built with **HTML, CSS, and Vanilla JavaScript ES modules**.
+
+No framework.  
+No UI library.  
+No CSS framework.  
+No build step.
+
+---
+
+## Live Demo
+
+### [Open Nota Workspace](https://allahverdi-dev.github.io/nota-workspace/)
+
+> Nota is local-first. Notes created in the live demo are stored only in your browser on your device.
 
 ---
 
 ## Preview
 
-<!-- Replace with real screenshots or a short capture before publishing. -->
-<!-- ![Nota — all notes, light](docs/screenshots/all-notes-light.png) -->
+### All Notes — Light
 
-> **Screenshots:** _to be added._ Suggested set — desktop light, desktop dark,
-> command palette, search results, settings, and the mobile list → editor pair.
+![Nota — All Notes Light](docs/screenshots/all-notes-light.png)
 
-**Live demo:** _to be added_ (any static host works — GitHub Pages, Netlify,
-Cloudflare Pages; there is nothing to build).
+### All Notes — Dark
+
+![Nota — All Notes Dark](docs/screenshots/all-notes-dark.png)
+
+### Writing Experience
+
+![Nota — Editor Dark](docs/screenshots/editor-dark.png)
+
+### Mobile
+
+<p align="center">
+  <img
+    src="docs/screenshots/mobile-notes-light.png"
+    alt="Nota mobile notes list"
+    width="390"
+  >
+</p>
 
 ---
 
 ## Features
 
-**Writing**
-- Rich text editor with headings, bold, italic, inline code, links, bulleted
-  and numbered lists, checklists and quotes
-- Debounced autosave with an honest status indicator — *Saving… / Saved locally
-  / Save failed*
-- Word count, created and updated timestamps, breadcrumbs
-- Editor typography controls: font size, line height, spell check
+### Writing
 
-**Organising**
-- Folders (Personal, Work, Learning, Ideas by default) — create, rename, delete
-- Deleting a folder never deletes notes; they move to **Unfiled**
-- Tags, assignable from the editor and filterable from search
-- Favourite, pin, archive
-- Drag a note onto a folder in the sidebar to move it
+- Rich-text note editor
+- Headings
+- Bold and italic text
+- Inline code
+- Links
+- Bulleted lists
+- Numbered lists
+- Checklists
+- Quotes
+- Debounced autosave
+- Saving status:
+  - Saving...
+  - Saved locally
+  - Save failed
+- Word count
+- Created and updated timestamps
+- Breadcrumb navigation
+- Editor font-size settings
+- Line-height settings
+- Spell-check preference
 
-**Finding**
-- Global search across titles, content, folders and tags, with highlighted
-  matches and grouped results
-- Command palette (`Ctrl`/`Cmd` + `K`) for every action, view and a jump-to-note
-- Sorting by updated, created or title; list and grid layouts
+### Organisation
 
-**Safety**
-- Soft-delete trash with restore, permanent delete and empty-trash, each behind
-  a confirmation
-- Undo toast after moving a note to the trash
-- JSON export and validated import
-- Graceful behaviour when browser storage is corrupt, full or unavailable
+- Create, rename, and delete folders
+- Default folders:
+  - Personal
+  - Work
+  - Learning
+  - Ideas
+- Notes from deleted folders automatically move to **Unfiled**
+- Tags
+- Filter notes by tags
+- Favourite notes
+- Pin notes
+- Archive notes
+- Drag notes into folders
+- List and grid layouts
+- Sorting by:
+  - Last updated
+  - Date created
+  - Title
 
-**Everything else**
-- Light, dark and system themes
-- English and Azerbaijani interface
-- Deep-linkable views (`#/folder/fld-work?note=note-abc`) with working back/forward
-- Full keyboard operation, `prefers-reduced-motion` support, live regions
-- Responsive from ~360px to wide desktop
+### Search
+
+- Global search
+- Search note titles
+- Search note content
+- Search folders
+- Search tags
+- Highlighted matches
+- Grouped search results
+- Safe substring-based matching without raw RegExp construction
+
+### Command Palette
+
+Open the command palette with:
+
+```text
+Ctrl / Cmd + K
+```
+
+Use it to:
+
+- create a new note
+- navigate between views
+- open folders
+- jump directly to notes
+- access common application actions
+
+The palette supports keyboard navigation with arrow keys, Enter, and Escape.
+
+### Trash and Recovery
+
+- Soft-delete notes
+- Restore deleted notes
+- Permanently delete notes
+- Empty trash
+- Confirmation dialogs for destructive actions
+- Undo toast after moving a note to trash
+
+### Import and Export
+
+- Export workspace data as JSON
+- Import previously exported Nota backups
+- Import validation before data is applied
+- Hostile or malformed imports are rejected
+- Import replaces the current workspace only after confirmation
+
+### Appearance
+
+- Light theme
+- Dark theme
+- System theme
+- Theme preference persistence
+- Responsive typography
+- Reduced-motion support
+
+### Languages
+
+Nota currently supports:
+
+- English
+- Azerbaijani
+
+The interface can be switched without reloading the application.
 
 ---
 
-## Running it locally
+## Local-First by Design
 
-Nota uses ES modules, which browsers refuse to load over `file://`. It needs to
-be served over HTTP — but it does **not** need to be built.
+Nota does not require an account or backend.
 
-```bash
-node tools/serve.mjs
-```
+Notes are stored using:
 
-Then open <http://localhost:4173>.
+1. **IndexedDB**
+2. **localStorage fallback**
+3. **in-memory fallback**
 
-`tools/serve.mjs` is a ~60-line dependency-free static file server included for
-convenience. Any equivalent works:
+IndexedDB is the preferred storage layer because it is asynchronous and better suited to larger amounts of structured data.
 
-```bash
-npx serve .
-```
+If IndexedDB is unavailable, Nota automatically falls back instead of failing completely.
 
-To deploy, upload the repository as-is to any static host. There is no
-build command and no output directory.
+The active storage driver can be inspected from Settings.
 
-### Tests
+---
 
-```bash
-node tools/serve.mjs
-```
+## Privacy
 
-Then open <http://localhost:4173/tests/>.
+**Your notes stay on your device.**
 
-59 checks covering sanitisation, storage validation, routing, search and note
-logic run in the browser against the real modules. The runner is ~120 lines in
-`tests/runner.js` — deliberately not a framework, because adding one would mean
-adding the toolchain this project exists without.
+Nota does not include:
+
+- user accounts
+- cloud storage
+- analytics
+- advertising trackers
+- telemetry
+- remote databases
+- third-party icon requests
+- remote font requests
+
+The application uses system font stacks instead of downloading web fonts.
+
+Icons are provided through an inline SVG sprite.
+
+### Important
+
+Because Nota is local-first:
+
+- clearing browser storage can remove your notes
+- notes do not automatically sync between devices
+- exporting backups is recommended for important data
 
 ---
 
 ## Architecture
 
+Nota uses a modular Vanilla JavaScript architecture.
+
+```text
+User interaction
+      │
+      ▼
+┌───────────────┐
+│     Views     │
+│               │
+│ sidebar       │
+│ note list     │
+│ settings      │
+│ onboarding    │
+└───────┬───────┘
+        │
+        ▼
+┌───────────────┐
+│ Domain Logic  │
+│               │
+│ notes         │
+│ folders       │
+│ tags          │
+│ search        │
+└───────┬───────┘
+        │
+        ▼
+┌───────────────┐
+│     Store     │
+│               │
+│ single state  │
+│ tree          │
+└───────┬───────┘
+        │
+   ┌────┼─────────────┐
+   ▼    ▼             ▼
+ Views  Persistence   Router
+        IndexedDB
 ```
-                    ┌──────────────┐
-   user input ─────▶│   views/     │  sidebar · note-list · settings · onboarding
-                    └──────┬───────┘
-                           │ calls domain actions
-                    ┌──────▼───────┐
-                    │ notes/folders│  pure domain logic, no DOM
-                    │  tags/search │
-                    └──────┬───────┘
-                           │ immutable updates
-                    ┌──────▼───────┐
-                    │    store     │  single state tree, microtask-batched
-                    └──────┬───────┘
-                           │ notifies changed slices
-              ┌────────────┼────────────┐
-              ▼            ▼            ▼
-          renderers   persistence     router
-                      (storage.js)   (hash sync)
-```
 
-**State flows one way.** Views never mutate state directly; they call domain
-functions, which produce a new state through the store. The store notifies
-subscribers with the set of slices that changed, and each view re-renders only
-if a slice it depends on is in that set. Nothing reads state out of the DOM.
+State flows in one direction.
 
-**Updates are batched.** Several changes from one user action collapse into a
-single render pass on the next microtask. `store.flush()` forces the pass
-synchronously for the few cases that need the DOM immediately — such as putting
-the caret in the title of a note that was just created.
+Views do not mutate application state directly.
 
-**One sanitisation boundary.** `sanitize.js` is the only module that turns a
-string into DOM. Everything else builds elements with `document.createElement`
-and assigns text via `textContent`.
+Instead, they call domain functions that update the central store. Subscribers are then notified about the state slices that changed.
 
-### Project structure
+Multiple updates from a single user action are microtask-batched to reduce unnecessary rendering.
 
-```
-nota/
-├── index.html          # shell + inline SVG icon sprite
-├── README.md · LICENSE · .gitignore
+---
+
+## Project Structure
+
+```text
+nota-workspace/
 │
-├── assets/brand/       # wordmark, favicon (hand-authored SVG)
-│                       # there is no assets/icons — see the sprite in index.html
+├── index.html
+├── README.md
+├── LICENSE
+├── .gitignore
+│
+├── assets/
+│   └── brand/
+│       ├── favicon.svg
+│       ├── icon.svg
+│       └── wordmark.svg
 │
 ├── css/
-│   ├── tokens.css      # colours, spacing, radii, type, motion, z-index
-│   ├── reset.css       # minimal, only what the app relies on
-│   ├── base.css        # elements and shared primitives
-│   ├── layout.css      # three-pane shell and its breakpoints
-│   ├── components.css  # reusable UI: buttons, cards, menus, dialogs, toasts
-│   ├── editor.css      # the writing surface
-│   ├── views.css       # settings, search and onboarding composition
-│   ├── utilities.css   # a handful of single-purpose helpers
-│   └── responsive.css  # per-form-factor density and touch targets
+│   ├── tokens.css
+│   ├── reset.css
+│   ├── base.css
+│   ├── layout.css
+│   ├── components.css
+│   ├── editor.css
+│   ├── views.css
+│   ├── utilities.css
+│   └── responsive.css
 │
 ├── js/
-│   ├── app.js          # entry point and cross-module wiring
-│   ├── config.js       # constants, defaults, seed content
-│   ├── store.js        # state container
-│   ├── storage.js      # IndexedDB / localStorage / memory + validation
-│   ├── sanitize.js     # the untrusted-HTML boundary
-│   ├── router.js       # hash routing
-│   ├── notes.js        # note domain and selectors
-│   ├── folders.js      # folder domain
-│   ├── tags.js         # tag derivation
-│   ├── editor.js       # contenteditable editor and autosave
-│   ├── editor-format.js# selection and DOM surgery behind the toolbar
-│   ├── search.js       # matching, ranking, highlighting
-│   ├── commands.js     # command palette
+│   ├── app.js
+│   ├── config.js
+│   ├── store.js
+│   ├── storage.js
+│   ├── sanitize.js
+│   ├── router.js
+│   ├── notes.js
+│   ├── folders.js
+│   ├── tags.js
+│   ├── editor.js
+│   ├── editor-format.js
+│   ├── search.js
+│   ├── commands.js
 │   ├── import-export.js
-│   ├── ui.js           # toasts, dialogs, menus, focus trap, live region
-│   ├── i18n.js         # message catalogue (en, az)
-│   ├── utils.js        # DOM, timing, dates, text helpers
-│   └── views/          # sidebar, note-list, settings, onboarding
+│   ├── ui.js
+│   ├── i18n.js
+│   ├── utils.js
+│   │
+│   └── views/
+│       ├── sidebar.js
+│       ├── note-list.js
+│       ├── settings.js
+│       └── onboarding.js
 │
-├── tests/              # browser test runner and suite
-└── tools/serve.mjs     # dev-only static server
+├── docs/
+│   └── screenshots/
+│       ├── all-notes-light.png
+│       ├── all-notes-dark.png
+│       ├── editor-dark.png
+│       └── mobile-notes-light.png
+│
+├── tests/
+│   ├── index.html
+│   ├── runner.js
+│   └── suite.js
+│
+└── tools/
+    └── serve.mjs
 ```
 
-Two deviations from a flat structure, both to keep files honest about what
-they contain: `views.css` and `js/views/` hold page assembly so
-`components.css` can stay about reusable primitives, and `editor-format.js`
-holds the selection and DOM surgery so `editor.js` can stay about notes.
-
 ---
 
-## Storage and privacy
+## Storage and Data Validation
 
-**Your notes stay on this device.** Nota has no backend to send them to.
+Data loaded from browser storage is treated as untrusted input.
 
-### Why IndexedDB
+Before reaching application state, stored data is validated and normalised.
 
-Notes are stored in **IndexedDB**, with automatic fallback to **localStorage**,
-and finally to an in-memory object if both are blocked.
+The application can recover from:
 
-IndexedDB is the right default because it is asynchronous (a large workspace
-never blocks the main thread on save), has a storage budget measured in
-hundreds of megabytes rather than localStorage's ~5MB, and stores structured
-values without a JSON round-trip. localStorage would be simpler, but a few
-hundred notes with rich content is exactly the size where its synchronous
-writes and quota start to hurt — and quota errors on a notes app mean lost
-writing.
+- malformed notes
+- invalid flags
+- duplicate IDs
+- invalid timestamps
+- references to missing folders
+- corrupt storage values
+- unsupported content
+- invalid imports
 
-The fallback exists because IndexedDB is genuinely unavailable in some
-situations: certain private-browsing modes, hardened privacy settings, and
-browsers where the database open request never resolves. Rather than fail, Nota
-steps down a level and tells you which mode it is in — Settings shows the
-active driver, and if neither store works you get an explicit warning that
-changes will not persist.
+Rich-text note content is sanitised again when restored.
 
-The active theme is additionally mirrored to localStorage so an inline script
-can paint the right colours before the modules load, which avoids a flash of
-the wrong theme.
+### Storage Strategy
 
-### Data handling
+Notes are stored in **IndexedDB**, with automatic fallback to **localStorage**, and finally to an in-memory store if persistent browser storage is unavailable.
 
-- One versioned record (`schemaVersion`) holds notes, folders, tags and
-  preferences. UI state is never persisted.
-- Everything read back is re-validated by `normalizeState` before reaching the
-  store — malformed notes are skipped, duplicate ids dropped, timestamps
-  repaired, flags coerced to booleans, folder references to missing folders
-  reset to Unfiled, and note content re-sanitised. Storage is treated as
-  untrusted input, because an extension, a failed write or devtools can put
-  anything there.
-- Corrupt data does not crash the app: Nota starts from a clean workspace and
-  says so.
-- `migrate()` is in place for future schema versions; a record from a newer
-  build is narrowed to the fields this version understands.
+IndexedDB is the preferred storage layer because:
 
-### What leaves your device
+- it is asynchronous
+- larger workspaces do not block the main thread during saves
+- it offers considerably more space than localStorage
+- it is well suited to structured application data
 
-Nothing. Two deliberate consequences:
-
-- **No web fonts.** The design system specifies Geist and IBM Plex Serif. Nota
-  resolves to system font stacks instead, because loading them from a CDN would
-  mean a request to a third party on every page load — which would contradict
-  the claim on the tin. The typographic intent (a precise sans for the
-  interface, a serif for the writing) is preserved with locally available faces.
-- **No icon requests.** Icons are an inline SVG sprite in `index.html`.
-
----
-
-## Keyboard shortcuts
-
-| Shortcut | Action |
-| --- | --- |
-| `Ctrl`/`Cmd` + `K` | Command palette |
-| `Ctrl`/`Cmd` + `N` | New note |
-| `Ctrl`/`Cmd` + `S` | Flush the pending save |
-| `/` | Focus search (when not typing) |
-| `Escape` | Close the topmost overlay, or the mobile sidebar |
-| `↑` `↓` | Move through the notes list or palette results |
-| `Enter` | Open the selected palette result |
-
-In the editor: `Ctrl`/`Cmd` + `B` bold, `I` italic, `E` inline code, `K` link.
-
-`Ctrl`/`Cmd` + `S` is intercepted because "save this page" is never what someone
-means inside a notes app. No other browser shortcut is overridden.
-
----
-
-## Accessibility
-
-- Semantic structure: one `h1` per view, real `button`, `nav`, `main` and
-  heading elements rather than clickable `div`s
-- Every icon-only control has an accessible name; decorative SVG is
-  `aria-hidden`
-- Visible `:focus-visible` rings throughout, never suppressed without a
-  replacement
-- Dialogs and the command palette are modal, trap `Tab`, close on `Escape` and
-  restore focus to whatever opened them
-- Destructive confirmations open with focus on **Cancel**, so a stray `Enter`
-  cannot delete anything
-- The palette is a combobox with an owned listbox and `aria-activedescendant`,
-  so the highlighted option is announced as you arrow through it
-- A polite live region announces saves, theme changes and note actions
-- Focus is moved with direct calls rather than `requestAnimationFrame`, so it
-  still lands correctly in a background or non-painting tab
-- `prefers-reduced-motion: reduce` disables animation and transitions
-- Colour contrast targets WCAG AA in both themes
-
-This has been built with care and tested by keyboard and against the
-accessibility tree. It has **not** been audited by an accessibility
-professional, and no conformance claim is made.
+The active theme preference is also mirrored to localStorage so Nota can apply the correct theme before the main JavaScript modules finish loading.
 
 ---
 
 ## Security
 
-Note content is rich text, so it cannot be stored as a plain string — which
-means untrusted HTML has to be handled properly rather than avoided.
+Rich-text editors must treat stored and pasted HTML carefully.
 
-- **One boundary.** `sanitize.js` is the only place a string becomes DOM. It
-  parses into an inert document with `DOMParser` and rebuilds a fresh tree from
-  an allow-list of elements and attributes. Everything else builds nodes
-  programmatically.
-- **Three untrusted sources**, all routed through it: what you paste, what
-  `contenteditable` produces, and what an imported backup claims.
-- **Links are validated**, not merely inspected: only `http:`, `https:` and
-  `mailto:` survive. `javascript:`, `data:` and `blob:` are refused, including
-  when hidden behind control characters. Surviving links get
-  `rel="noopener noreferrer nofollow"`.
-- **No `eval`**, no `Function` constructor, no inline event handlers, no
-  `innerHTML` outside the sanitiser.
-- **Search never builds a RegExp from your query** — matching uses folded
-  substring scans, and highlights are built from text nodes and `<mark>`
-  elements.
-- **Imports are validated** for size, JSON validity, shape and content before
-  anything is applied, and replace only after explicit confirmation.
+Nota uses a central sanitisation boundary in:
 
-`document.execCommand` is used for text formatting. It is deprecated, but it is
-still the only rich-text implementation every engine agrees on, and everything
-it produces is normalised by the sanitiser before it is stored — so the storage
-format never depends on browser quirks.
+```text
+js/sanitize.js
+```
+
+The application rebuilds allowed content from a restricted element and attribute list.
+
+Untrusted sources include:
+
+- pasted content
+- browser-generated `contenteditable` HTML
+- imported backups
+- restored browser-storage content
+
+### Link Validation
+
+Only safe protocols are allowed:
+
+- `http:`
+- `https:`
+- `mailto:`
+
+Protocols such as these are rejected:
+
+- `javascript:`
+- `data:`
+- `blob:`
+
+Accepted links receive:
+
+```html
+rel="noopener noreferrer nofollow"
+```
+
+### Additional Protections
+
+Nota avoids:
+
+- `eval`
+- `Function` constructors
+- inline event handlers
+- raw imported HTML
+- user-generated RegExp patterns
+
+Search matching uses safe folded substring comparisons rather than constructing regular expressions directly from user input.
+
+`innerHTML` usage is restricted to the sanitisation boundary.
 
 ---
 
-## Responsive behaviour
+## Keyboard Shortcuts
+
+| Shortcut | Action |
+| --- | --- |
+| `Ctrl / Cmd + K` | Open command palette |
+| `Ctrl / Cmd + N` | Create new note |
+| `Ctrl / Cmd + S` | Save pending editor changes |
+| `/` | Focus search when not typing |
+| `Escape` | Close the active overlay |
+| `↑ / ↓` | Navigate notes or command results |
+| `Enter` | Open selected command result |
+
+Inside the editor:
+
+| Shortcut | Action |
+| --- | --- |
+| `Ctrl / Cmd + B` | Bold |
+| `Ctrl / Cmd + I` | Italic |
+| `Ctrl / Cmd + E` | Inline code |
+| `Ctrl / Cmd + K` | Link |
+
+---
+
+## Responsive Design
+
+Nota uses different layouts depending on available width.
 
 | Width | Layout |
 | --- | --- |
-| **> 1080px** | Three panes: sidebar (260px) · notes list (340px) · editor |
-| **761–1080px** | Two panes; the sidebar becomes an overlay with a scrim, reachable from the hamburger |
-| **≤ 760px** | One pane at a time: notes list ↔ editor, with a back button. The formatting toolbar moves to the bottom of the screen, above the keyboard |
+| `> 1080px` | Three panes |
+| `761px – 1080px` | Two panes + overlay sidebar |
+| `≤ 760px` | Single-pane mobile navigation |
 
-Mobile is designed rather than shrunk: larger touch targets, edge-to-edge cards,
-full-width dialog buttons stacked with the safe action last, safe-area insets
-honoured, and the palette footer hidden where it would only take up room. Tested
-down to 360px with no horizontal overflow.
+### Desktop
+
+The desktop application uses:
+
+```text
+Sidebar → Notes List → Editor
+```
+
+### Tablet
+
+The sidebar becomes an overlay while the notes list and editor remain available.
+
+### Mobile
+
+Mobile is not simply a scaled-down desktop interface.
+
+It uses a dedicated flow:
+
+```text
+Notes List → Note Editor
+```
+
+The formatting toolbar moves to the bottom of the viewport for easier touch access.
+
+Touch targets, safe-area insets, list density, and navigation are adapted for smaller screens.
+
+The application was checked at:
+
+- 1440px
+- 1280px
+- 1024px
+- 768px
+- 430px
+- 390px
+- 360px
 
 ---
 
-## Testing performed
+## Accessibility
 
-Automated (`/tests/`, 59 checks): sanitisation and link safety, storage
-validation and repair, tag normalisation, route round-trips, view filtering and
-sorting, search matching/ranking/highlighting, and timing helpers.
+Accessibility was considered throughout the interface.
 
-Verified by hand in the browser: onboarding and seeding, note create/edit/
-delete, autosave status transitions and persistence across reloads, folder
-create/rename/duplicate-name validation, tags, favourite/pin/archive, trash with
-undo, permanent delete and empty-trash confirmations, search with highlighting,
-the command palette (keyboard navigation, filtering, `Escape`), keyboard
-shortcuts, theme cycling and persistence, live language switching, export →
-re-import round trip, hostile-import rejection, corrupt-storage recovery, and
-the desktop, tablet and 360px layouts. The console is clean.
+Implemented features include:
+
+- semantic HTML structure
+- real buttons and navigation elements
+- accessible names for icon-only controls
+- decorative SVGs hidden from assistive technology
+- visible `:focus-visible` states
+- keyboard-accessible application controls
+- focus trapping in modal dialogs
+- focus restoration after modal close
+- Escape-to-close behaviour
+- live regions for important status updates
+- keyboard navigation in the command palette
+- `aria-activedescendant`
+- safer destructive-confirmation focus behaviour
+- `prefers-reduced-motion`
+- contrast targeting WCAG AA
+
+Destructive confirmation dialogs initially focus the safer action rather than the destructive one.
+
+No formal accessibility conformance claim is made.
 
 ---
 
-## Limitations
+## Running Locally
 
-- **One device, one browser.** No sync, by design. Clearing browser data clears
-  your notes — export regularly.
-- **Formatting is deliberately small.** No tables, images, code blocks with
-  syntax highlighting, or nested lists beyond what the browser produces.
-  Stability was chosen over surface area.
-- **Flat folders.** No nesting.
-- **Search is linear**, which is fine for the thousands of notes a personal
-  workspace holds and would not be for tens of thousands.
-- **No undo history** inside the editor beyond the browser's own, and no note
-  version history.
-- `document.execCommand` is deprecated. There is no removal timeline and no
-  standard replacement; if one arrives, the change is contained to `editor.js`.
-- The app is not installable as a PWA and registers no service worker, so a
-  first visit still requires a network connection.
+Nota uses ES modules, so it should be served through HTTP rather than opened directly using `file://`.
 
-## Possible next steps
+Clone the repository:
 
-- Service worker for true offline first-load and installability
-- Note linking (`[[wiki style]]`) with a backlinks panel
-- Full-text index for larger workspaces
-- Merge-on-import, once there is a defensible conflict-resolution story
-- Per-note version history built on the existing timestamps
-- Encrypted export
+```bash
+git clone https://github.com/allahverdi-dev/nota-workspace.git
+```
+
+Enter the project:
+
+```bash
+cd nota-workspace
+```
+
+Run the included static server:
+
+```bash
+node tools/serve.mjs
+```
+
+Then open:
+
+```text
+http://localhost:4173
+```
+
+No installation step is required.
+
+There is no:
+
+```text
+npm install
+```
+
+There is no build command or generated output directory.
+
+---
+
+## Testing
+
+Start the included development server:
+
+```bash
+node tools/serve.mjs
+```
+
+Then open:
+
+```text
+http://localhost:4173/tests/
+```
+
+The project currently includes **59 automated browser checks**.
+
+The automated suite covers areas such as:
+
+- sanitisation
+- link security
+- note validation
+- storage validation
+- tag normalisation
+- routing
+- filtering
+- sorting
+- search
+- highlighting
+- timing utilities
+
+Additional testing was performed for:
+
+- onboarding
+- note creation
+- editing
+- autosave
+- persistence
+- folders
+- duplicate folder validation
+- tags
+- favourites
+- pinning
+- archive
+- trash
+- undo
+- permanent deletion
+- search
+- command palette
+- keyboard navigation
+- keyboard shortcuts
+- theme switching
+- language switching
+- JSON export
+- JSON import
+- hostile import rejection
+- corrupt storage recovery
+- responsive layouts
+- long note titles
+- long tags
+- larger note lists
+
+---
+
+## Technology
+
+### Core
+
+- HTML5
+- CSS3
+- Vanilla JavaScript
+- JavaScript ES Modules
+
+### Browser APIs
+
+- IndexedDB
+- localStorage
+- DOMParser
+- Hash routing
+- File APIs
+- browser editing APIs
+
+### Development and Deployment
+
+- Git
+- GitHub
+- GitHub Pages
+
+### What Nota Does Not Use
+
+- React
+- Vue
+- Angular
+- Tailwind CSS
+- Bootstrap
+- jQuery
+- TypeScript
+- backend frameworks
+- npm dependencies
+- build tooling
+
+---
+
+## Deployment
+
+Nota is deployed using **GitHub Pages**.
+
+### [Live Demo](https://allahverdi-dev.github.io/nota-workspace/)
+
+Because Nota is a static application, the repository can also be deployed directly to services such as:
+
+- Cloudflare Pages
+- Netlify
+- Vercel
+- GitHub Pages
+
+No build command or output directory is required.
+
+---
+
+## Known Limitations
+
+### No Cloud Sync
+
+Nota currently works on one browser/device at a time.
+
+This is intentional for the current local-first version.
+
+### Browser Storage
+
+Clearing browser data can remove locally stored notes.
+
+Export important work regularly.
+
+### Flat Folders
+
+Nested folders are not currently supported.
+
+### Editor
+
+Formatting is intentionally limited.
+
+Nota currently does not include:
+
+- images
+- tables
+- advanced nested blocks
+- syntax-highlighted code blocks
+- custom note version history
+
+### Search
+
+Search currently uses linear matching.
+
+This is suitable for a personal workspace but would eventually need indexing for very large collections.
+
+### Rich-Text API
+
+Some formatting functionality currently relies on `document.execCommand`.
+
+This API is deprecated, but it remains broadly supported in current browsers and is isolated inside the editor-formatting layer so it can be replaced later.
+
+### PWA
+
+Nota currently does not register a service worker and is not installable as a Progressive Web App.
+
+---
+
+## Possible Future Improvements
+
+Potential next steps include:
+
+- PWA support
+- service worker
+- installable desktop/mobile experience
+- `[[wiki-style]]` note links
+- backlinks
+- full-text search index
+- note version history
+- nested folders
+- merge-on-import
+- encrypted exports
+- optional end-to-end encrypted sync
 
 ---
 
 ## AI-Assisted Development
 
-This project was built using an AI-assisted workflow. I want to be straightforward
-about that, because the alternative — implying that every line here was typed
-from memory — would be untrue.
+Nota was created using an **AI-assisted / vibe-coding workflow**.
 
-**Tools used:** ChatGPT, Google Stitch and Claude Code.
+I want to be transparent about that rather than imply that every part of the project was written manually from memory.
 
-**How the work was divided.** Google Stitch produced the initial visual
-direction: screen concepts and a design system document covering the colour
-roles, the dual-typeface strategy, the 8px spacing rhythm and the elevation
-rules. That design system is the origin of the tokens in `css/tokens.css`. The
-generated HTML itself was not used — it was Tailwind-CDN output, and the
-interface here was rebuilt from scratch. ChatGPT and Claude Code were used for
-implementation, refactoring and debugging.
+### Tools Used
 
-**My role was product and engineering direction, not transcription:**
+- **ChatGPT** — product planning, feature definition, architecture discussions, QA direction, debugging strategy, and iteration
+- **Google Stitch** — initial visual direction and interface exploration
+- **Claude Code** — implementation, refactoring, debugging, testing, and visual polish
 
-- Defining what the product is and, more importantly, what it is not — the
-  fake "Pro Plan" account row, the analytics widgets and the placeholder
-  "Explore" tab in the generated designs were all cut because they do not
-  belong in a private notes app
-- Making the architectural decisions: IndexedDB with a graceful fallback rather
-  than plain localStorage, one sanitisation boundary rather than scattered
-  escaping, a single state tree with declared change slices rather than views
-  reading state out of the DOM
-- Deciding that import replaces rather than merges, because merge needs a
-  conflict story a single-device app cannot answer honestly
-- Choosing system font stacks over the specified web fonts, because loading
-  fonts from a CDN would contradict the privacy claim the product makes
-- Reviewing, testing and debugging: the focus-after-`requestAnimationFrame` bug,
-  the empty-paragraph artefacts left by `execCommand`, and the breakpoint
-  collision between the sidebar toggle and the editor back button were all
-  found by testing the running application, not by reading generated code
-- Writing the test suite's assertions around the behaviour that actually
-  matters
+### My Role
 
-**What I learned building it,** and would be glad to be questioned on: how
-IndexedDB transactions and versioning behave, why an allow-list sanitiser is
-the only defensible approach to untrusted HTML, how the Selection and Range APIs
-underpin `contenteditable`, why focus management is the hard part of accessible
-dialogs, how CSS custom properties make a two-theme system a single stylesheet,
-and where the CSS cascade bites when two classes contribute the same property at
-equal specificity.
+My role in the project included:
+
+- choosing the product direction
+- defining the feature set
+- deciding how the application should behave
+- directing the visual style
+- evaluating design concepts
+- writing and refining implementation prompts
+- reviewing implementation results
+- testing the application
+- identifying UX problems
+- reviewing desktop and mobile layouts
+- requesting fixes and improvements
+- validating final behaviour
+- managing the GitHub repository
+- deploying the application
+- using the project as part of my ongoing HTML, CSS, and JavaScript learning process
+
+AI tools were used as implementation partners, while product decisions, evaluation, testing, debugging direction, and iteration were actively directed by me.
+
+---
+
+## Project Goals
+
+Nota was built to practice and explore:
+
+- larger Vanilla JavaScript application architecture
+- modular JavaScript
+- state management
+- browser storage
+- DOM manipulation
+- responsive design
+- accessibility
+- application security
+- local-first product design
+- keyboard-driven UX
+- testing
+- product iteration
+- Git and GitHub workflows
+- AI-assisted software development workflows
 
 ---
 
 ## License
 
-[MIT](LICENSE)
+This project is available under the terms of the included [LICENSE](LICENSE) file.
+
+---
+
+## Author
+
+**Allahverdi Hasanov**
+
+Vibe Coder / AI-Assisted Builder
+
+[GitHub Profile](https://github.com/allahverdi-dev)
+
+---
+
+<p align="center">
+  <strong>Nota</strong><br>
+  A private workspace for thoughts that stay yours.
+</p>
