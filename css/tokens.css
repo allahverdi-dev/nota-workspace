@@ -1,0 +1,178 @@
+/**
+ * Design tokens for Nota.
+ * Values transcribed from the Nota Workspace design system:
+ * warm off-white canvas, deep-graphite dark, one restrained blue accent,
+ * an 8px spacing rhythm and a soft-but-precise 4px shape language.
+ */
+
+:root {
+  color-scheme: light;
+
+  /* ---- Spacing (8px rhythm, with 4px half-steps) ---- */
+  --space-0: 0;
+  --space-1: 0.25rem;   /*  4px */
+  --space-2: 0.5rem;    /*  8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-5: 1.5rem;    /* 24px */
+  --space-6: 2rem;      /* 32px */
+  --space-7: 2.5rem;    /* 40px */
+  --space-8: 4rem;      /* 64px */
+
+  /* ---- Radii ---- */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-pill: 9999px;
+
+  /* ---- Layout ---- */
+  --sidebar-width: 260px;
+  --list-width: 340px;
+  --editor-measure: 720px;
+  --topbar-height: 52px;
+  --gutter: var(--space-5);
+  --gutter-mobile: var(--space-4);
+
+  /* ---- Typography ----
+     Geist and IBM Plex Serif are the design-system faces. We resolve to system
+     stacks so the app never reaches out to a font CDN — see README. */
+  --font-ui: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Inter, Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-editor: "IBM Plex Serif", "Iowan Old Style", "Palatino Linotype",
+    Palatino, Georgia, "Times New Roman", serif;
+  --font-mono: "Geist Mono", ui-monospace, "SF Mono", "Cascadia Code",
+    "JetBrains Mono", Consolas, "Liberation Mono", monospace;
+
+  --text-xs: 0.6875rem;  /* 11px */
+  --text-sm: 0.75rem;    /* 12px */
+  --text-md: 0.875rem;   /* 14px */
+  --text-lg: 1rem;       /* 16px */
+  --text-xl: 1.25rem;    /* 20px */
+  --text-2xl: 1.5rem;    /* 24px */
+  --text-3xl: 1.75rem;   /* 28px */
+
+  --leading-tight: 1.25;
+  --leading-normal: 1.45;
+  --leading-relaxed: 1.65;
+
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+
+  --tracking-tight: -0.015em;
+  --tracking-wide: 0.06em;
+
+  /* ---- Motion ---- */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 90ms;
+  --duration-base: 160ms;
+  --duration-slow: 240ms;
+
+  /* ---- Z-index scale ---- */
+  --z-base: 0;
+  --z-sticky: 10;
+  /* The scrim dims what is behind the sidebar, so it must sit *below* it —
+     above, it swallows every tap meant for the navigation. */
+  --z-scrim: 30;
+  --z-sidebar: 40;
+  --z-dialog: 60;
+  --z-palette: 70;
+  --z-toast: 80;
+
+  /* ---- Light palette ---- */
+  --color-bg: #f9f9f8;
+  --color-surface: #ffffff;
+  --color-surface-2: #f3f4f3;
+  --color-surface-3: #ebebe9;
+  --color-surface-inset: #f0f0ee;
+
+  --color-border: #e5e5e3;
+  --color-border-strong: #d3d3cf;
+
+  --color-text: #1a1c1c;
+  --color-text-2: #5c6069;
+  /* text-3 carries real information (timestamps, counts), so it is held at
+     4.5:1 against both the canvas and the sidebar rather than being the
+     lightest grey that still looks quiet. */
+  --color-text-3: #6b7079;
+  --color-text-inverse: #f6f6f5;
+
+  --color-accent: #0058be;
+  --color-accent-hover: #00479b;
+  --color-accent-contrast: #ffffff;
+  --color-accent-soft: #e7eefb;
+  --color-accent-border: #b9cff2;
+
+  --color-danger: #ba1a1a;
+  --color-danger-soft: #fdecea;
+  --color-danger-border: #f2c4bf;
+  --color-success: #1a7a4d;
+  --color-warning: #8a5300;
+
+  --color-hover: rgb(0 0 0 / 4%);
+  --color-active: rgb(0 0 0 / 7%);
+  --color-focus-ring: #0058be;
+  --color-selection: #cfe0fb;
+  --color-mark: #fde68a;
+  --color-mark-text: #46320a;
+
+  --shadow-overlay: 0 10px 30px rgb(0 0 0 / 8%), 0 2px 6px rgb(0 0 0 / 4%);
+  --shadow-raised: 0 1px 2px rgb(0 0 0 / 6%);
+  --scrim: rgb(24 24 24 / 32%);
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --color-bg: #121212;
+  --color-surface: #171717;
+  --color-surface-2: #1c1c1c;
+  --color-surface-3: #242424;
+  --color-surface-inset: #1a1a1a;
+
+  --color-border: #2b2b2b;
+  --color-border-strong: #3a3a3a;
+
+  --color-text: #ececea;
+  --color-text-2: #a3a3a1;
+  --color-text-3: #8b8b88;
+  --color-text-inverse: #17181a;
+
+  --color-accent: #7ba6ff;
+  --color-accent-hover: #9dbcff;
+  --color-accent-contrast: #0b1b38;
+  --color-accent-soft: #172440;
+  --color-accent-border: #2c3f68;
+
+  --color-danger: #ff9d95;
+  --color-danger-soft: #331c1a;
+  --color-danger-border: #58302c;
+  --color-success: #6cc79a;
+  --color-warning: #e0ab5c;
+
+  --color-hover: rgb(255 255 255 / 5%);
+  --color-active: rgb(255 255 255 / 9%);
+  --color-focus-ring: #7ba6ff;
+  --color-selection: #2b3f66;
+  --color-mark: #5c4a15;
+  --color-mark-text: #f7e6b4;
+
+  --shadow-overlay: 0 12px 34px rgb(0 0 0 / 55%), 0 2px 8px rgb(0 0 0 / 40%);
+  --shadow-raised: 0 1px 2px rgb(0 0 0 / 40%);
+  --scrim: rgb(0 0 0 / 55%);
+}
+
+/* Editor typography scales, driven by user preference. */
+:root {
+  --editor-font-size: 17px;
+  --editor-line-height: 1.65;
+}
+:root[data-editor-size="small"]  { --editor-font-size: 15px; }
+:root[data-editor-size="medium"] { --editor-font-size: 17px; }
+:root[data-editor-size="large"]  { --editor-font-size: 19px; }
+:root[data-editor-leading="compact"]     { --editor-line-height: 1.45; }
+:root[data-editor-leading="comfortable"] { --editor-line-height: 1.65; }
+:root[data-editor-leading="spacious"]    { --editor-line-height: 1.9; }

@@ -1,0 +1,296 @@
+/* ============================================================
+   Responsive refinements.
+   The shell breakpoints live in layout.css; this file adjusts
+   density, typography and touch targets per form factor.
+   ============================================================ */
+
+/* ---------- Adaptive affordances ----------
+   Two different controls appear at two different widths, so they get two
+   classes. These live here, after components.css, so they win over the
+   `display` that .icon-btn would otherwise contribute at equal specificity.
+
+   .nav-toggle — reveals the sidebar once it becomes an overlay (≤1080px)
+   .pane-back  — returns to the list once panes stack (≤760px)
+   ------------------------------------------------------------------- */
+
+.nav-toggle,
+.pane-back {
+  display: none;
+}
+
+@media (max-width: 1080px) {
+  .nav-toggle {
+    display: inline-flex;
+  }
+}
+
+@media (max-width: 760px) {
+  .pane-back {
+    display: inline-flex;
+  }
+}
+
+/* ---------- Pointer-sized screens: denser secondary navigation ----------
+   Tag rows are secondary and there can be eight of them, so they sit shorter
+   than folders — but only where the pointer is a mouse. On touch they keep
+   the full row height. */
+
+@media (min-width: 761px) {
+  [aria-labelledby="nav-tags-title"] .nav-item {
+    height: 30px;
+  }
+
+  [aria-labelledby="nav-tags-title"] .nav-item__label {
+    font-size: var(--text-sm);
+  }
+}
+
+/* ---------- Wide desktop: let the list breathe ---------- */
+
+@media (min-width: 1500px) {
+  :root {
+    --list-width: 380px;
+  }
+}
+
+/* ---------- Tablet ---------- */
+
+@media (max-width: 1080px) {
+  :root {
+    --list-width: 300px;
+  }
+
+  .sidebar__foot {
+    padding-bottom: max(var(--space-3), env(safe-area-inset-bottom));
+  }
+}
+
+/* ---------- Mobile ---------- */
+
+@media (max-width: 760px) {
+  :root {
+    --gutter: var(--gutter-mobile);
+    --topbar-height: 56px;
+  }
+
+  /* Comfortable hit areas on touch. The tag's remove control stays visually
+     small but grows its target with a pseudo-element rather than its box. */
+  .icon-btn {
+    width: 38px;
+    height: 38px;
+  }
+
+  .tag__remove {
+    position: relative;
+  }
+
+  .tag__remove::after {
+    content: "";
+    position: absolute;
+    inset: -11px;
+  }
+
+  .btn {
+    height: 38px;
+  }
+
+  .nav-item,
+  .search-trigger {
+    height: 42px;
+  }
+
+  .list-pane__head,
+  .editor__topbar {
+    padding-left: var(--space-2);
+    padding-right: var(--space-2);
+  }
+
+  /* On a phone the view name is the only orientation cue, so it carries more
+     weight here than it needs to beside a desktop sidebar. */
+  .list-pane__title {
+    padding-left: var(--space-1);
+    font-size: 1.0625rem;
+    letter-spacing: -0.02em;
+  }
+
+  .list-pane__meta {
+    padding: var(--space-2) var(--space-4) 0;
+  }
+
+  /* ---- Notes list density ----
+     Tightened so more rows fit without the type shrinking: the height comes
+     out of padding, leading and chip size rather than font size. */
+
+  .note-card {
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 0;
+  }
+
+  /* An inset hairline reads as tonal grouping; a full-bleed border chops the
+     screen into blocks. */
+  .note-card::after {
+    content: "";
+    position: absolute;
+    left: var(--space-4);
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: var(--color-border);
+  }
+
+  .note-list > li:last-child .note-card::after {
+    display: none;
+  }
+
+  .note-card[aria-current="true"]::after {
+    display: none;
+  }
+
+  .note-card__title {
+    line-height: 1.3;
+  }
+
+  .note-card__excerpt {
+    margin-top: 1px;
+    line-height: 1.4;
+  }
+
+  .note-card__foot {
+    margin-top: var(--space-2);
+  }
+
+  .note-card__foot .tag {
+    height: 18px;
+    padding: 0 var(--space-1);
+    font-size: var(--text-xs);
+  }
+
+  .note-list__section {
+    padding: var(--space-3) var(--space-4) var(--space-1);
+  }
+
+  .note-list--grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .editor__doc {
+    padding-top: var(--space-5);
+    padding-bottom: var(--space-8);
+  }
+
+  .editor__title {
+    font-size: var(--text-2xl);
+  }
+
+  /* The formatting bar moves to the bottom, above the keyboard. */
+  .editor__toolbar {
+    order: 3;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 0;
+    padding-bottom: max(var(--space-1), env(safe-area-inset-bottom));
+    background: var(--color-surface);
+  }
+
+  .palette {
+    padding-top: var(--space-5);
+  }
+
+  .palette__panel {
+    max-height: 78dvh;
+  }
+
+  .palette__foot {
+    display: none;
+  }
+
+  .toast-region {
+    bottom: max(var(--space-4), env(safe-area-inset-bottom));
+  }
+
+  .dialog__panel {
+    padding: var(--space-4);
+  }
+
+  .dialog__actions {
+    flex-direction: column-reverse;
+  }
+
+  .dialog__actions .btn {
+    width: 100%;
+  }
+
+  .settings-row {
+    flex-wrap: wrap;
+  }
+
+  .settings-row__control {
+    width: 100%;
+  }
+
+  .settings-row__control .select {
+    width: 100%;
+  }
+
+  .editor__meta {
+    gap: var(--space-3);
+    font-size: var(--text-xs);
+  }
+}
+
+/* ---------- Small phones (down to ~360px) ---------- */
+
+@media (max-width: 400px) {
+  .editor__actions .icon-btn {
+    width: 34px;
+  }
+
+  .breadcrumbs {
+    font-size: var(--text-sm);
+  }
+
+  .save-status__text {
+    display: none;
+  }
+
+  .theme-picker {
+    gap: var(--space-2);
+  }
+
+  .theme-option__preview {
+    height: 52px;
+  }
+}
+
+/* ---------- Short viewports ---------- */
+
+@media (max-height: 560px) {
+  .palette {
+    padding-top: var(--space-4);
+  }
+
+  .onboarding__points {
+    margin: var(--space-4) 0;
+  }
+}
+
+/* ---------- Print: just the note ---------- */
+
+@media print {
+  .sidebar,
+  .list-pane,
+  .editor__topbar,
+  .editor__toolbar,
+  .toast-region {
+    display: none !important;
+  }
+
+  .app {
+    display: block;
+    height: auto;
+    overflow: visible;
+  }
+
+  .editor__scroll {
+    overflow: visible;
+  }
+}

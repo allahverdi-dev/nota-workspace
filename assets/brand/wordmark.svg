@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 32" role="img" aria-label="Nota">
+  <g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 24V9.4a1.6 1.6 0 0 1 2.9-.95l8.2 11.1a1.6 1.6 0 0 0 2.9-.95V8" />
+  </g>
+  <circle cx="20" cy="7.6" r="2.4" fill="#0058be" />
+  <text x="30" y="24" font-family="system-ui, -apple-system, 'Segoe UI', Inter, sans-serif"
+        font-size="21" font-weight="600" letter-spacing="-0.5" fill="currentColor">Nota</text>
+</svg>

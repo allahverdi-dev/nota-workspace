@@ -1,0 +1,367 @@
+/* ============================================================
+   Editor surface
+   The document column is capped at a comfortable measure so long
+   prose never runs the full width of a wide window.
+   ============================================================ */
+
+.editor {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+.editor__topbar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex: none;
+  height: var(--topbar-height);
+  padding: 0 var(--space-3) 0 var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: var(--text-md);
+  color: var(--color-text-2);
+  overflow: hidden;
+}
+
+.breadcrumbs__item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-radius: var(--radius-sm);
+}
+
+button.breadcrumbs__item:hover {
+  color: var(--color-text);
+}
+
+.breadcrumbs__sep {
+  flex: none;
+  color: var(--color-text-3);
+}
+
+.breadcrumbs__current {
+  color: var(--color-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.save-status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex: none;
+  padding: 0 var(--space-2);
+  font-size: var(--text-sm);
+  letter-spacing: 0.01em;
+  color: var(--color-text-3);
+  white-space: nowrap;
+}
+
+.save-status[data-state="saving"] {
+  color: var(--color-text-2);
+}
+
+.save-status[data-state="error"] {
+  color: var(--color-danger);
+}
+
+.save-status__dot {
+  width: 6px;
+  height: 6px;
+  flex: none;
+  background: currentColor;
+  border-radius: 50%;
+}
+
+.save-status[data-state="saving"] .save-status__dot {
+  animation: pulse 1.1s var(--ease-in-out) infinite;
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+.editor__actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: none;
+}
+
+/* ---------- Formatting toolbar ---------- */
+
+.editor__toolbar {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: none;
+  padding: var(--space-1) var(--space-3);
+  overflow-x: auto;
+  scrollbar-width: none;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg);
+}
+
+.editor__toolbar::-webkit-scrollbar {
+  display: none;
+}
+
+.editor__toolbar-sep {
+  width: 1px;
+  height: 18px;
+  flex: none;
+  margin: 0 var(--space-2);
+  background: var(--color-border);
+}
+
+.editor__toolbar .icon-btn[aria-pressed="true"] {
+  background: var(--color-accent-soft);
+}
+
+/* ---------- Document ---------- */
+
+.editor__scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.editor__doc {
+  width: 100%;
+  max-width: var(--editor-measure);
+  margin: 0 auto;
+  padding: var(--space-6) var(--gutter) var(--space-8);
+}
+
+.editor__title {
+  display: block;
+  width: 100%;
+  font-family: var(--font-ui);
+  font-size: var(--text-3xl);
+  font-weight: var(--weight-semibold);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  outline: none;
+  word-break: break-word;
+}
+
+.editor__title:empty::before {
+  content: attr(data-placeholder);
+  color: var(--color-text-3);
+  pointer-events: none;
+}
+
+.editor__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  margin-top: var(--space-3);
+  font-size: var(--text-sm);
+  color: var(--color-text-3);
+}
+
+.editor__meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.editor__tags {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  margin-top: var(--space-3);
+}
+
+.tag-input {
+  width: 120px;
+  height: 22px;
+  padding: 0 var(--space-2);
+  font-size: var(--text-sm);
+  background: var(--color-surface-2);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-xs);
+  outline: none;
+}
+
+.tag-input:focus {
+  border-style: solid;
+  border-color: var(--color-accent);
+}
+
+.editor__rule {
+  margin: var(--space-5) 0;
+}
+
+/* ---------- Rich content ---------- */
+
+.editor__content {
+  font-family: var(--font-editor);
+  font-size: var(--editor-font-size);
+  line-height: var(--editor-line-height);
+  color: var(--color-text);
+  outline: none;
+  word-break: break-word;
+}
+
+.editor__content:empty::before,
+.editor__content > p:only-child:empty::before {
+  content: attr(data-placeholder);
+  color: var(--color-text-3);
+  pointer-events: none;
+}
+
+.editor__content > * + * {
+  margin-top: 0.85em;
+}
+
+.editor__content h2,
+.editor__content h3 {
+  font-family: var(--font-ui);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-tight);
+  line-height: 1.3;
+}
+
+.editor__content h2 {
+  margin-top: 1.6em;
+  font-size: 1.32em;
+}
+
+.editor__content h3 {
+  margin-top: 1.4em;
+  font-size: 1.12em;
+}
+
+.editor__content ul,
+.editor__content ol {
+  padding-left: 1.4em;
+}
+
+.editor__content li + li {
+  margin-top: 0.3em;
+}
+
+.editor__content ul {
+  list-style: disc;
+}
+
+.editor__content ol {
+  list-style: decimal;
+}
+
+.editor__content li::marker {
+  color: var(--color-text-3);
+}
+
+.editor__content blockquote {
+  padding-left: var(--space-4);
+  border-left: 2px solid var(--color-border-strong);
+  color: var(--color-text-2);
+  font-style: italic;
+}
+
+.editor__content code {
+  padding: 0.12em 0.35em;
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  background: var(--color-surface-3);
+  border-radius: var(--radius-xs);
+}
+
+.editor__content a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.editor__content hr {
+  margin: 1.6em 0;
+}
+
+/* Checklists render real checkboxes so they stay keyboard-operable. */
+.editor__content ul[data-checklist] {
+  padding-left: 0;
+  list-style: none;
+}
+
+.editor__content ul[data-checklist] > li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.editor__content ul[data-checklist] input[type="checkbox"] {
+  flex: none;
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  margin-top: calc((1em * var(--editor-line-height) - 15px) / 2);
+  accent-color: var(--color-accent);
+  cursor: pointer;
+}
+
+.editor__content ul[data-checklist] > li[data-checked="true"] {
+  color: var(--color-text-3);
+  text-decoration: line-through;
+  text-decoration-color: var(--color-text-3);
+}
+
+/* ---------- Read-only states (trash / archive preview) ---------- */
+
+.editor--readonly .editor__content,
+.editor--readonly .editor__title {
+  opacity: 0.86;
+}
+
+.editor__banner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  padding: var(--space-3) var(--gutter);
+  font-size: var(--text-md);
+  color: var(--color-text-2);
+  background: var(--color-surface-2);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.editor__banner .icon {
+  flex: none;
+  color: var(--color-text-3);
+}
+
+.editor__banner-text {
+  flex: 1 1 220px;
+  min-width: 0;
+}
+
+.editor__banner--danger {
+  color: var(--color-danger);
+  background: var(--color-danger-soft);
+  border-bottom-color: var(--color-danger-border);
+}
+
+.editor__banner--danger .icon {
+  color: currentColor;
+}

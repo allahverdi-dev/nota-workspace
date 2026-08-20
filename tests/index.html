@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nota tests</title>
+    <link rel="stylesheet" href="../css/tokens.css" />
+    <link rel="stylesheet" href="../css/reset.css" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <style>
+      body {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: var(--space-6) var(--space-4) var(--space-8);
+      }
+      h1 {
+        font-size: var(--text-2xl);
+        letter-spacing: var(--tracking-tight);
+      }
+      .lede {
+        margin-top: var(--space-2);
+        color: var(--color-text-2);
+      }
+      .summary {
+        margin: var(--space-5) 0;
+        padding: var(--space-3) var(--space-4);
+        font-weight: var(--weight-semibold);
+        border-radius: var(--radius-lg);
+      }
+      .summary--pass {
+        color: var(--color-success);
+        background: color-mix(in srgb, var(--color-success) 10%, transparent);
+      }
+      .summary--fail {
+        color: var(--color-danger);
+        background: var(--color-danger-soft);
+      }
+      h2 {
+        margin-top: var(--space-5);
+        font-size: var(--text-md);
+        letter-spacing: var(--tracking-wide);
+        text-transform: uppercase;
+        color: var(--color-text-3);
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+        margin-top: var(--space-2);
+      }
+      li {
+        padding: var(--space-1) 0;
+        font-size: var(--text-md);
+        border-bottom: 1px solid var(--color-border);
+      }
+      li.ok {
+        color: var(--color-text-2);
+      }
+      li.fail {
+        color: var(--color-danger);
+        font-weight: var(--weight-medium);
+      }
+      pre {
+        margin: var(--space-1) 0 var(--space-2) var(--space-4);
+        font-family: var(--font-mono);
+        font-size: var(--text-sm);
+        white-space: pre-wrap;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Nota tests</h1>
+    <p class="lede">
+      Runs the real modules in a real browser. Serve the project and open this
+      page — there is nothing to install.
+    </p>
+    <div id="output">Running…</div>
+    <script type="module" src="suite.js"></script>
+  </body>
+</html>
